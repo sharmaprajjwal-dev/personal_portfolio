@@ -1,9 +1,8 @@
 ---
 // One of the 4 components allowed to carry client-side JS (see README / architecture doc).
 // Framework-free vanilla JS, same pattern as Reveal.astro / FilterTabs.astro.
-// Posts to a Formspree-style endpoint (see SITE.contactFormEndpoint) since GitHub Pages
-// can't run server code. Falls back to a direct-email message if the endpoint isn't
-// configured yet, or if the request fails.
+// Posts to a configurable endpoint (including Google Apps Script) since GitHub Pages
+// can't run server code. Falls back to a direct-email message until configured.
 import Input from '../ui/Input.astro';
 import Textarea from '../ui/Textarea.astro';
 import Button from '../ui/Button.astro';
@@ -64,13 +63,14 @@ import { SITE } from '../../data/site';
         setStatus('Sending…');
 
         try {
+          const isGoogleAppsScript = endpoint.includes('script.google.com/macros/s/');
           const response = await fetch(endpoint, {
             method: 'POST',
-            headers: { Accept: 'application/json' },
             body: new FormData(form),
+            ...(isGoogleAppsScript ? { mode: 'no-cors' as const } : { headers: { Accept: 'application/json' } }),
           });
 
-          if (response.ok) {
+          if (isGoogleAppsScript || response.ok) {
             form.reset();
             setStatus("Thanks — I'll get back to you soon.");
           } else {

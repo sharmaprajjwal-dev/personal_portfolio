@@ -19,8 +19,6 @@ export const SITE = {
   galleryDriveUrl: 'https://drive.google.com/drive/folders/REPLACE-WITH-REAL-FOLDER-ID',
   // TODO: replace with the real shared Google Drive folder link for the prompt library.
   promptLibraryDriveUrl: 'https://drive.google.com/drive/folders/REPLACE-WITH-REAL-FOLDER-ID',
-  // TODO: sign up at https://formspree.io (free tier is enough), create a form, and swap in
-  // its endpoint here — e.g. 'https://formspree.io/f/abcdwxyz'. Required for the contact
-  // form to actually deliver inquiries, since GitHub Pages can't run server code.
-  contactFormEndpoint: 'https://formspree.io/f/REPLACE-WITH-YOUR-FORM-ID',
+  // Deploy google-apps-script/Code.gs as a Web app, then paste its /exec URL here.
+  contactFormEndpoint: 'https://script.google.com/macros/s/AKfycbxpLMwnwReOQpKPe3R2gEDV6nV4TtvgiO3dqMvoQXEZyYBMU8gahEAMFwfOsvf2ml_v/exec',
 } as const;
