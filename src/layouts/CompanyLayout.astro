@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import PageLayout from './PageLayout.astro';
+import Reveal from '../components/ui/Reveal.astro';
+import Icon from '../components/ui/Icon.astro';
+import Divider from '../components/ui/Divider.astro';
+import DeliverableCard from '../components/cards/DeliverableCard.astro';
+import type { ProjectEntry, DeliverableEntry } from '../lib/collections';
+
+interface Props {
+  project: ProjectEntry;
+  deliverables: DeliverableEntry[];
+}
+
+const { project, deliverables } = Astro.props;
+const { company, industry, location, summary, challenge, approach, coverImage } = project.data;
+---
+
+<PageLayout
+  title={company}
+  description={summary}
+  canonicalPath={`/projects/${project.slug}`}
+  ogImage={coverImage?.src}
+  type="article"
+>
+  <article class="px-6 pt-8 pb-24">
+    <div class="mx-auto max-w-content">
+      <Reveal>
+        <a
+          href="/projects"
+          class="inline-flex items-center gap-2 text-sm text-muted transition-colors duration-200 hover:text-accent"
+        >
+          <Icon name="arrow-right" size={14} class="rotate-180" />
+          All projects
+        </a>
+
+        <p class="mt-8 font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          {industry}{location && ` — ${location}`}
+        </p>
+        <h1 class="mt-4 max-w-3xl text-balance font-display text-4xl font-semibold text-fg sm:text-5xl">
+          {company}
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg text-muted">{summary}</p>
+      </Reveal>
+    </div>
+
+    {coverImage && (
+      <Reveal delay={100}>
+        <div class="mx-auto mt-16 max-w-content">
+          <div class="aspect-video overflow-hidden rounded-xl border border-white/10">
+            <Image
+              src={coverImage}
+              inferSize
+              alt={`${company} cover image`}
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </Reveal>
+    )}
+
+    <div class="mx-auto mt-16 max-w-content">
+      <Divider />
+    </div>
+
+    {(challenge || approach) && (
+      <Reveal>
+        <div class="mx-auto mt-16 max-w-content grid gap-10 sm:grid-cols-2">
+          {challenge && (
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">Challenge</p>
+              <p class="mt-4 text-muted">{challenge}</p>
+            </div>
+          )}
+          {approach && (
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">My approach</p>
+              <p class="mt-4 text-muted">{approach}</p>
+            </div>
+          )}
+        </div>
+      </Reveal>
+    )}
+
+    <div class="prose prose-invert mx-auto mt-16 max-w-content max-w-none prose-headings:font-display prose-headings:text-fg prose-p:text-muted prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-fg prose-li:text-muted">
+      <slot />
+    </div>
+
+    <div class="mx-auto mt-20 max-w-content">
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+        Deliverables ({deliverables.length})
+      </p>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+        {deliverables.map((deliverable, i) => (
+          <Reveal delay={Math.min(i, 5) * 80}>
+            <DeliverableCard deliverable={deliverable} companySlug={project.slug} />
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </article>
+</PageLayout>

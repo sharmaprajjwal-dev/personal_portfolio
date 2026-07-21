@@ -1,0 +1,21 @@
+---
+import { render } from 'astro:content';
+import CompanyLayout from '../../../layouts/CompanyLayout.astro';
+import { getPublishedProjects, getDeliverablesForCompany } from '../../../lib/collections';
+
+export async function getStaticPaths() {
+  const projects = await getPublishedProjects();
+  return projects.map((project) => ({
+    params: { company: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const deliverables = await getDeliverablesForCompany(project.slug);
+const { Content } = await render(project);
+---
+
+<CompanyLayout project={project} deliverables={deliverables}>
+  <Content />
+</CompanyLayout>

@@ -1,0 +1,37 @@
+---
+import { SITE } from '../../data/site';
+
+interface Props {
+  type?: 'Person' | 'ProfilePage' | 'Article' | 'BreadcrumbList';
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+const { type = 'Person', breadcrumbs } = Astro.props;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.name,
+  url: SITE.url,
+  jobTitle: 'AI-Enabled Business Professional',
+  sameAs: [SITE.socials.linkedin, SITE.socials.github],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: SITE.location,
+  },
+};
+
+const breadcrumbSchema = breadcrumbs && {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((crumb, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.name,
+    item: `${SITE.url}${crumb.url}`,
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+{breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}

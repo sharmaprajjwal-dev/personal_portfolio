@@ -1,0 +1,55 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import CaseStudyCard from '../../components/cards/CaseStudyCard.astro';
+import FilterTabs from '../../components/ui/FilterTabs.astro';
+import Reveal from '../../components/ui/Reveal.astro';
+import { getPublishedCaseStudies } from '../../lib/collections';
+
+const caseStudies = await getPublishedCaseStudies();
+const industries = [...new Set(caseStudies.map((c) => c.data.industry))].sort();
+---
+
+<PageLayout
+  title="Case Studies"
+  description="In-depth case studies on the business problems Prajjwal Sharma has solved — the approach, the execution, and the measured results."
+  canonicalPath="/case-studies"
+>
+  <section class="px-6 pt-8 pb-12">
+    <div class="mx-auto max-w-content">
+      <Reveal>
+        <SectionHeading eyebrow="Proof of work">
+          Case studies
+          <Fragment slot="description">
+            Full write-ups on real engagements — the problem as it was framed, the approach
+            taken, and the results that followed. No vanity metrics, only what moved.
+          </Fragment>
+        </SectionHeading>
+      </Reveal>
+
+      {industries.length > 1 && (
+        <Reveal delay={80} class="mt-10">
+          <FilterTabs tags={industries} targetSelector="[data-case-study-grid] > [data-tags]" />
+        </Reveal>
+      )}
+    </div>
+  </section>
+
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-content">
+      {caseStudies.length > 0 ? (
+        <div class="grid gap-6" data-case-study-grid>
+          {caseStudies.map((caseStudy, i) => (
+            <div data-tags={caseStudy.data.industry} class="contents">
+              <Reveal delay={Math.min(i, 5) * 80}>
+                <CaseStudyCard caseStudy={caseStudy} />
+              </Reveal>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="text-muted">Case studies are being added — check back soon.</p>
+      )}
+    </div>
+  </section>
+</PageLayout>

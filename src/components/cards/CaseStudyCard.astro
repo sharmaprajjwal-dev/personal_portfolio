@@ -1,0 +1,40 @@
+---
+import Icon from '../ui/Icon.astro';
+import type { CaseStudyEntry } from '../../lib/collections';
+
+interface Props {
+  caseStudy: CaseStudyEntry;
+}
+
+const { caseStudy } = Astro.props;
+const { title, client, industry, problem, metrics } = caseStudy.data;
+const metricEntries = Object.entries(metrics);
+---
+
+<a
+  href={`/case-studies/${caseStudy.slug}`}
+  class="group grid gap-8 rounded-xl border border-white/10 bg-surface p-8 transition-all duration-300 ease-out-quart hover:border-accent/30 hover:shadow-glow sm:p-12 lg:grid-cols-[1.4fr_1fr]"
+>
+  <div>
+    <p class="font-mono text-xs uppercase tracking-wider text-muted">{industry} — {client}</p>
+    <h3 class="mt-4 font-display text-2xl text-fg group-hover:text-accent transition-colors sm:text-3xl">
+      {title}
+    </h3>
+    <p class="mt-4 max-w-lg text-muted">{problem}</p>
+    <div class="mt-6 inline-flex items-center gap-2 text-sm text-accent">
+      Read the case study
+      <Icon name="arrow-up-right" size={14} />
+    </div>
+  </div>
+
+  {metricEntries.length > 0 && (
+    <div class="flex flex-col justify-center gap-6 border-t border-white/10 pt-6 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
+      {metricEntries.map(([label, value]) => (
+        <div>
+          <p class="font-mono text-3xl text-fg">{value}</p>
+          <p class="mt-1 text-sm text-muted capitalize">{label}</p>
+        </div>
+      ))}
+    </div>
+  )}
+</a>

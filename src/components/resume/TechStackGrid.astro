@@ -1,0 +1,36 @@
+---
+const TECH_STACK = [
+  'Google Ads',
+  'Meta Ads',
+  'TikTok Ads',
+  'Ahrefs',
+  'SEMrush',
+  'GA4',
+  'Search Console',
+  'Looker Studio',
+  'Mailchimp',
+  'HubSpot',
+  'ChatGPT',
+  'Claude',
+  'Gemini',
+  'Zapier',
+  'Make.com',
+  'n8n',
+  'Canva AI',
+  'HTML',
+  'CSS',
+  'Tailwind CSS',
+  'GitHub / Git',
+  'WordPress',
+  'Shopify',
+  'Microsoft Excel',
+];
+---
+
+<div class="flex flex-wrap gap-2">
+  {TECH_STACK.map((tool) => (
+    <span class="rounded-md border border-white/10 bg-surface px-3 py-1.5 font-mono text-xs text-muted">
+      {tool}
+    </span>
+  ))}
+</div>

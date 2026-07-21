@@ -1,0 +1,26 @@
+---
+import Card from '../ui/Card.astro';
+import Icon from '../ui/Icon.astro';
+import type { DeliverableEntry } from '../../lib/collections';
+
+interface Props {
+  deliverable: DeliverableEntry;
+  companySlug: string;
+}
+
+const { deliverable, companySlug } = Astro.props;
+const { title, category, summary } = deliverable.data;
+const deliverableSlug = deliverable.slug.split('/').pop();
+---
+
+<Card href={`/projects/${companySlug}/${deliverableSlug}`} class="group">
+  <p class="font-mono text-xs uppercase tracking-wider text-muted">{category}</p>
+  <h3 class="mt-3 font-display text-lg text-fg group-hover:text-accent transition-colors">
+    {title}
+  </h3>
+  <p class="mt-2 text-sm text-muted">{summary}</p>
+  <div class="mt-5 inline-flex items-center gap-2 text-sm text-accent">
+    Read the deliverable
+    <Icon name="arrow-up-right" size={14} />
+  </div>
+</Card>

@@ -1,0 +1,34 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import CompanyCard from '../cards/CompanyCard.astro';
+import Button from '../ui/Button.astro';
+import Reveal from '../ui/Reveal.astro';
+import { getFeaturedProjects } from '../../lib/collections';
+
+const projects = (await getFeaturedProjects()).slice(0, 3);
+---
+
+{projects.length > 0 && (
+  <section class="px-6 py-24 sm:py-32">
+    <div class="mx-auto max-w-content">
+      <div class="flex items-end justify-between gap-6">
+        <SectionHeading eyebrow="Selected work">Featured projects</SectionHeading>
+        <Button href="/projects" variant="ghost" class="hidden sm:inline-flex shrink-0">
+          View all projects
+        </Button>
+      </div>
+
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project, i) => (
+          <Reveal delay={i * 100}>
+            <CompanyCard project={project} />
+          </Reveal>
+        ))}
+      </div>
+
+      <div class="mt-8 sm:hidden">
+        <Button href="/projects" variant="secondary">View all projects</Button>
+      </div>
+    </div>
+  </section>
+)}

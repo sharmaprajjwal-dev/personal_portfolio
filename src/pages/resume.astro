@@ -1,0 +1,129 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import Reveal from '../components/ui/Reveal.astro';
+import Divider from '../components/ui/Divider.astro';
+import ResumeTimeline from '../components/resume/ResumeTimeline.astro';
+import SkillsMatrix from '../components/resume/SkillsMatrix.astro';
+import CompetencyGrid from '../components/resume/CompetencyGrid.astro';
+import EducationBlock from '../components/resume/EducationBlock.astro';
+import AchievementStat from '../components/resume/AchievementStat.astro';
+import TechStackGrid from '../components/resume/TechStackGrid.astro';
+import { SITE } from '../data/site';
+---
+
+<PageLayout
+  title="Resume"
+  description="Career timeline, core competencies, skills, and achievements — Prajjwal Sharma's interactive resume."
+>
+  <!-- Summary -->
+  <section class="relative overflow-hidden px-6 pt-8 pb-20">
+    <div class="node-grid node-grid-fade absolute inset-0 -z-10" aria-hidden="true"></div>
+    <div class="mx-auto max-w-content">
+      <Reveal>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">Resume</p>
+        <h1 class="mt-6 max-w-2xl text-balance font-display text-4xl font-semibold text-fg sm:text-5xl">
+          Professional summary
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg text-muted">
+          AI-enabled business professional with six years' experience spanning procurement,
+          marketing management and international customer operations, backed by an MBA and
+          hands-on AI/automation fluency (ChatGPT, Claude, Gemini, Zapier, Make.com, n8n).
+          Previously grew revenue 17% while cutting paid ad spend from 20% to just 2–3% of
+          budget — growth and cost-efficiency delivered together, not separately. Combines
+          commercial marketing execution with genuine operating and financial acumen, applying
+          AI and automation to make both functions more measurable and repeatable.
+        </p>
+      </Reveal>
+
+      <div class="mt-12 flex flex-wrap gap-4">
+        <Button href="/resume/prajjwal-sharma-resume.pdf" download>
+          <Icon name="arrow-right" size={16} class="rotate-90" />
+          Download resume (PDF)
+        </Button>
+        <Button href={SITE.socials.linkedin} variant="secondary">LinkedIn</Button>
+        <Button href={SITE.socials.github} variant="secondary">GitHub</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Achievements strip -->
+  <section class="px-6 py-16 border-y border-white/10">
+    <div class="mx-auto max-w-content grid grid-cols-2 gap-8 sm:grid-cols-4">
+      <AchievementStat value="6+" label="Years experience" />
+      <AchievementStat value="MBA" label="Business foundation" />
+      <AchievementStat value="17%" label="Revenue growth delivered" />
+      <AchievementStat value="3" label="Markets — Nepal, UAE &amp; NZ" />
+    </div>
+  </section>
+
+  <!-- Career timeline -->
+  <section class="px-6 py-24 sm:py-32">
+    <div class="mx-auto max-w-content">
+      <SectionHeading eyebrow="Career">Timeline</SectionHeading>
+      <div class="mt-12">
+        <ResumeTimeline />
+      </div>
+    </div>
+  </section>
+
+  <!-- Core competencies -->
+  <section class="px-6 py-24 sm:py-32 border-t border-white/10">
+    <div class="mx-auto max-w-content">
+      <SectionHeading eyebrow="Capability">Core competencies</SectionHeading>
+      <div class="mt-12">
+        <CompetencyGrid />
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills matrix -->
+  <section class="px-6 py-24 sm:py-32 border-t border-white/10">
+    <div class="mx-auto max-w-content">
+      <SectionHeading eyebrow="Skills">Skills matrix</SectionHeading>
+      <div class="mt-12">
+        <SkillsMatrix />
+      </div>
+    </div>
+  </section>
+
+  <!-- Education + Tech stack -->
+  <section class="px-6 py-24 sm:py-32 border-t border-white/10">
+    <div class="mx-auto max-w-content grid gap-16 lg:grid-cols-2">
+      <div>
+        <SectionHeading eyebrow="Background">Education &amp; certifications</SectionHeading>
+        <div class="mt-12">
+          <EducationBlock />
+        </div>
+        <div class="mt-6">
+          <Button href="/certifications" variant="ghost">
+            View all certifications <Icon name="arrow-right" size={14} />
+          </Button>
+        </div>
+      </div>
+      <div>
+        <SectionHeading eyebrow="Tools">Technology stack</SectionHeading>
+        <div class="mt-12">
+          <TechStackGrid />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Divider />
+
+  <!-- Closing CTA -->
+  <section class="px-6 py-24 text-center sm:py-32">
+    <div class="mx-auto max-w-lg">
+      <h2 class="text-balance font-display text-2xl font-semibold text-fg sm:text-3xl">
+        Want the full picture, or a conversation instead of a PDF?
+      </h2>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <Button href="/contact">Get in touch</Button>
+        <Button href="/case-studies" variant="secondary">See case studies</Button>
+      </div>
+    </div>
+  </section>
+</PageLayout>

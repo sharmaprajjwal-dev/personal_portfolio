@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ---- Color tokens (RGB triplets so Tailwind's <alpha-value> works) ---- */
+    --color-bg: 10 10 11;              /* #0A0A0B — near-black, not pure */
+    --color-surface: 19 19 21;         /* #131315 */
+    --color-surface-raised: 26 26 29;  /* #1A1A1D */
+    --color-border: 255 255 255;       /* used at low alpha for hairlines */
+    --color-fg: 245 245 244;           /* #F5F5F4 */
+    --color-fg-muted: 155 155 159;     /* #9B9B9F */
+    --color-accent: 217 142 60;        /* #D98E3C — warm brass, single accent */
+    --color-accent-fg: 10 10 11;       /* dark text on accent fill */
+
+    /* ---- Type ---- */
+    --font-display: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'Space Mono', ui-monospace, monospace;
+
+    /* ---- Radius (soft, not rounded-pill — executive, not playful) ---- */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    /* ---- Shadows (low-opacity, never harsh) ---- */
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.24);
+    --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 24px 64px -16px rgb(0 0 0 / 0.5);
+    --shadow-glow: 0 0 0 1px rgb(217 142 60 / 0.15), 0 8px 32px -8px rgb(217 142 60 / 0.25);
+
+    /* ---- Motion — one shared curve, used everywhere ---- */
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+    /* ---- Signature: hairline node-grid, used sparingly (hero bg, dividers) ---- */
+    --bg-node-grid: radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.06) 1px, transparent 0);
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-bg text-fg font-body antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight text-fg;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-fg;
+  }
+
+  /* Visible keyboard focus everywhere — no outline: none anywhere in this project */
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-accent));
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* "Explore the engagement" accordion for case studies — native <details>/<summary>,
+     zero JS. Lets a long full-report narrative live on the page as scannable,
+     expandable sections instead of one long wall of text. Markup:
+       <div class="cs-accordion">
+         <details open><summary>Section title</summary><div class="cs-panel">...</div></details>
+         <details><summary>Another section</summary><div class="cs-panel">...</div></details>
+       </div>
+  */
+  .cs-accordion {
+    @apply divide-y divide-white/10 rounded-xl border border-white/10 bg-surface;
+  }
+
+  .cs-accordion summary {
+    @apply flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-display text-base font-medium text-fg transition-colors duration-200 ease-out-quart hover:text-accent sm:px-8;
+  }
+
+  .cs-accordion summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cs-accordion summary::after {
+    content: '';
+    display: block;
+    flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    border-bottom: 2px solid rgb(var(--color-fg-muted));
+    border-right: 2px solid rgb(var(--color-fg-muted));
+    transform: rotate(45deg);
+    transition: transform 300ms var(--ease-out-quart), border-color 300ms var(--ease-out-quart);
+  }
+
+  .cs-accordion details[open] summary::after {
+    transform: rotate(-135deg);
+    border-color: rgb(var(--color-accent));
+  }
+
+  .cs-accordion .cs-panel {
+    @apply space-y-4 px-6 pb-8 text-muted sm:px-8;
+  }
+
+  .cs-accordion .cs-panel :is(ul, ol) {
+    @apply list-none space-y-2 pl-0;
+  }
+
+  .cs-accordion .cs-panel li {
+    @apply flex gap-3;
+  }
+
+  .cs-accordion .cs-panel li::before {
+    content: '';
+    @apply mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent;
+  }
+
+  .cs-accordion .cs-panel strong {
+    @apply font-medium text-fg;
+  }
+
+  .cs-accordion .cs-panel a {
+    @apply text-accent underline underline-offset-2;
+  }
+}
+
+@layer utilities {
+  .node-grid {
+    background-image: var(--bg-node-grid);
+    background-size: 28px 28px;
+  }
+
+  /* Fade variant — ONLY for use on an isolated decorative layer (absolute, -z-10,
+     aria-hidden), never on an element that also contains real content. mask-image
+     clips the element's own rendered pixels, so putting it on a content wrapper
+     hides text/buttons outside the ellipse instead of just fading the dot pattern. */
+  .node-grid-fade {
+    mask-image: radial-gradient(ellipse 60% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}

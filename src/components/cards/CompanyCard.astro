@@ -1,0 +1,40 @@
+---
+import Card from '../ui/Card.astro';
+import Tag from '../ui/Tag.astro';
+import Icon from '../ui/Icon.astro';
+import { getDeliverablesForCompany } from '../../lib/collections';
+import type { ProjectEntry } from '../../lib/collections';
+
+interface Props {
+  project: ProjectEntry;
+}
+
+const { project } = Astro.props;
+const { company, industry, summary, tags } = project.data;
+const deliverables = await getDeliverablesForCompany(project.slug);
+---
+
+<Card href={`/projects/${project.slug}`} class="group h-full flex flex-col justify-between">
+  <div>
+    <p class="font-mono text-xs uppercase tracking-wider text-muted">{industry}</p>
+    <h3 class="mt-3 font-display text-xl text-fg group-hover:text-accent transition-colors">
+      {company}
+    </h3>
+    <p class="mt-2 text-sm text-muted">{summary}</p>
+    {deliverables.length > 0 && (
+      <p class="mt-4 font-mono text-xs text-accent">
+        {deliverables.length} Consulting {deliverables.length === 1 ? 'Deliverable' : 'Deliverables'}
+      </p>
+    )}
+  </div>
+
+  <div class="mt-6 flex items-center justify-between">
+    <div class="flex flex-wrap gap-2">
+      {tags.slice(0, 3).map((tag) => <Tag>{tag}</Tag>)}
+    </div>
+    <span class="inline-flex shrink-0 items-center gap-1 text-sm text-accent">
+      View engagement
+      <Icon name="arrow-up-right" size={14} class="transition-colors" />
+    </span>
+  </div>
+</Card>

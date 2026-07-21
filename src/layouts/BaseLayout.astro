@@ -1,0 +1,50 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import SEOHead from '../components/seo/SEOHead.astro';
+import StructuredData from '../components/seo/StructuredData.astro';
+import '../styles/global.css';
+import '../styles/animations.css';
+import type { SEOInput } from '../lib/seo';
+
+interface Props extends SEOInput {}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Self-hosted fonts — swap paths once real .woff2 files are added to /public/fonts -->
+    <link rel="preload" href="/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/space-mono.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      @font-face {
+        font-family: 'Instrument Sans';
+        src: url('/fonts/instrument-sans.woff2') format('woff2');
+        font-weight: 400 700;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Space Mono';
+        src: url('/fonts/space-mono.woff2') format('woff2');
+        font-weight: 400 700;
+        font-display: swap;
+      }
+    </style>
+
+    <SEOHead {...props} />
+    <StructuredData />
+    <ViewTransitions />
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-accent focus:text-accent-fg focus:px-4 focus:py-2 focus:rounded-md">
+      Skip to content
+    </a>
+    <slot />
+  </body>
+</html>

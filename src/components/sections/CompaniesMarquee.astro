@@ -1,0 +1,20 @@
+---
+import { TARGET_COMPANIES } from '../../data/companies';
+
+// Duplicate the list once so the CSS marquee can loop seamlessly at -50%.
+const loop = [...TARGET_COMPANIES, ...TARGET_COMPANIES];
+---
+
+<section class="border-y border-white/10 py-10">
+  <p class="mx-auto max-w-content px-6 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+    Companies I'd like to work with
+  </p>
+
+  <div class="relative mt-6 overflow-hidden">
+    <div class="animate-marquee flex w-max gap-16 px-6">
+      {loop.map((name) => (
+        <span class="font-display text-xl text-muted/60 whitespace-nowrap">{name}</span>
+      ))}
+    </div>
+  </div>
+</section>

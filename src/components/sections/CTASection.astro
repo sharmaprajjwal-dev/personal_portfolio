@@ -1,0 +1,24 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+---
+
+<section class="px-6 py-24 sm:py-32">
+  <div class="relative mx-auto max-w-content overflow-hidden rounded-2xl border border-white/10 bg-surface px-8 py-16 text-center sm:px-16">
+    <div class="node-grid node-grid-fade absolute inset-0 -z-10" aria-hidden="true"></div>
+    <h2 class="mx-auto max-w-xl text-balance font-display text-3xl font-semibold text-fg sm:text-4xl">
+      Have a business problem worth solving properly?
+    </h2>
+    <p class="mx-auto mt-4 max-w-md text-muted">
+      I'm open to consulting, contract, and full-time roles across strategy, growth, and
+      applied AI.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <Button href="/contact">
+        Start a conversation
+        <Icon name="arrow-right" size={16} />
+      </Button>
+      <Button href="/resume" variant="secondary">View resume</Button>
+    </div>
+  </div>
+</section>

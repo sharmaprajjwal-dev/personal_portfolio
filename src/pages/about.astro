@@ -1,0 +1,101 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Reveal from '../components/ui/Reveal.astro';
+import Button from '../components/ui/Button.astro';
+import Divider from '../components/ui/Divider.astro';
+---
+
+<PageLayout
+  title="About"
+  description="Personal story, career journey, and the philosophy behind Prajjwal Sharma's approach to business, marketing, and AI."
+>
+  <section class="px-6 pt-8 pb-20">
+    <div class="mx-auto max-w-content">
+      <Reveal>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">About</p>
+        <h1 class="mt-6 max-w-2xl text-balance font-display text-4xl font-semibold text-fg sm:text-5xl">
+          I started in marketing execution. I stayed for the strategy underneath it.
+        </h1>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="px-6 py-16 border-t border-white/10">
+    <div class="mx-auto max-w-content grid gap-16 lg:grid-cols-[1fr_1.3fr]">
+      <SectionHeading eyebrow="Story">Career journey</SectionHeading>
+      <div class="space-y-6 text-muted">
+        <p>
+          My work started where most performance marketing does — running ad accounts,
+          chasing click-through rates, optimizing budgets. Over six-plus years, and an MBA
+          along the way, the useful part of the job turned out to be upstream of all that:
+          understanding what the business actually needed before touching a single campaign.
+        </p>
+        <p>
+          That shift is what led to freelance consulting alongside an in-house role as
+          Marketing Manager, and to running a small creative and editing team for client
+          work spanning SEO, social media, and digital strategy. The common thread across
+          all of it is structure — breaking down a vague business problem into something
+          you can actually execute and measure.
+        </p>
+        <p>
+          More recently, that same instinct for structure has pointed toward AI — not as a
+          novelty, but as leverage for the parts of strategy, research, and content work that
+          used to eat the most time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Divider />
+
+  <section class="px-6 py-16">
+    <div class="mx-auto max-w-content grid gap-16 lg:grid-cols-[1fr_1.3fr]">
+      <SectionHeading eyebrow="Philosophy">Business &amp; AI philosophy</SectionHeading>
+      <div class="space-y-6 text-muted">
+        <p>
+          Good strategy is mostly good structure. Most "creative" problems in marketing and
+          business are actually clarity problems — once the goal, audience, and constraints
+          are properly mapped, the right approach tends to be obvious.
+        </p>
+        <p>
+          AI is a force multiplier for that structure, not a replacement for it. It's most
+          useful applied to well-defined workflows — research synthesis, content systems,
+          campaign analysis — where judgment still decides the input and the output, and AI
+          handles the volume in between.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Divider />
+
+  <section class="px-6 py-16">
+    <div class="mx-auto max-w-content grid gap-16 lg:grid-cols-[1fr_1.3fr]">
+      <SectionHeading eyebrow="Ahead">Vision &amp; goals</SectionHeading>
+      <div class="space-y-6 text-muted">
+        <p>
+          The near-term goal is straightforward: move into a role — consulting, analyst, or
+          operations — where structured thinking and applied AI are the actual job, not a
+          side skill layered on top of execution work.
+        </p>
+        <p>
+          Longer term, that points toward building — products, systems, or a practice — where
+          the same combination of business judgment and AI leverage compounds on its own.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-24 text-center sm:py-32">
+    <div class="mx-auto max-w-lg">
+      <h2 class="text-balance font-display text-2xl font-semibold text-fg sm:text-3xl">
+        Curious how this plays out in practice?
+      </h2>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <Button href="/resume">View resume</Button>
+        <Button href="/contact" variant="secondary">Get in touch</Button>
+      </div>
+    </div>
+  </section>
+</PageLayout>

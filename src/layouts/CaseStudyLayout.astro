@@ -1,0 +1,126 @@
+---
+import { Image } from 'astro:assets';
+import PageLayout from './PageLayout.astro';
+import Reveal from '../components/ui/Reveal.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import Divider from '../components/ui/Divider.astro';
+import type { CaseStudyEntry } from '../lib/collections';
+
+interface Props {
+  caseStudy: CaseStudyEntry;
+}
+
+const { caseStudy } = Astro.props;
+const { title, client, industry, problem, approach, results, metrics, coverImage, disclaimer, downloadUrl } =
+  caseStudy.data;
+const metricEntries = Object.entries(metrics);
+---
+
+<PageLayout
+  title={title}
+  description={problem}
+  canonicalPath={`/case-studies/${caseStudy.slug}`}
+  ogImage={coverImage?.src}
+  type="article"
+>
+  <article class="px-6 pt-8 pb-24">
+    <div class="mx-auto max-w-content">
+      <Reveal>
+        <a
+          href="/case-studies"
+          class="inline-flex items-center gap-2 text-sm text-muted transition-colors duration-200 hover:text-accent"
+        >
+          <Icon name="arrow-right" size={14} class="rotate-180" />
+          All case studies
+        </a>
+
+        <p class="mt-8 font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          {industry} — {client}
+        </p>
+        <h1 class="mt-4 max-w-3xl text-balance font-display text-4xl font-semibold text-fg sm:text-5xl">
+          {title}
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg text-muted">{problem}</p>
+
+        {disclaimer && (
+          <p class="mt-4 max-w-2xl border-l-2 border-white/10 pl-4 text-sm italic text-muted/80">
+            {disclaimer}
+          </p>
+        )}
+      </Reveal>
+
+      {(metricEntries.length > 0 || downloadUrl) && (
+        <Reveal delay={80}>
+          <div class="mt-12 flex flex-wrap items-end justify-between gap-x-10 gap-y-6 border-t border-white/10 pt-8">
+            <div class="flex flex-wrap gap-x-10 gap-y-6">
+              {metricEntries.map(([label, value]) => (
+                <div>
+                  <p class="font-mono text-3xl text-fg">{value}</p>
+                  <p class="mt-1 text-sm capitalize text-muted">{label}</p>
+                </div>
+              ))}
+            </div>
+
+            {downloadUrl && (
+              <Button href={downloadUrl} variant="secondary" download>
+                <Icon name="arrow-right" size={16} class="rotate-90" />
+                Download full report
+              </Button>
+            )}
+          </div>
+        </Reveal>
+      )}
+    </div>
+
+    {coverImage && (
+      <Reveal delay={140}>
+        <div class="mx-auto mt-16 max-w-content">
+          <div class="aspect-video overflow-hidden rounded-xl border border-white/10">
+            <Image
+              src={coverImage}
+              inferSize
+              alt={`${title} cover image`}
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </Reveal>
+    )}
+
+    <div class="mx-auto mt-16 max-w-content">
+      <Divider />
+    </div>
+
+    <div class="mx-auto mt-16 max-w-content grid gap-16 lg:grid-cols-[1fr_1.3fr]">
+      <div class="space-y-10">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">Approach</p>
+          <p class="mt-4 text-muted">{approach}</p>
+        </div>
+
+        {results.length > 0 && (
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">Results</p>
+            <ul class="mt-4 space-y-3">
+              {results.map((result) => (
+                <li class="flex gap-3 text-muted">
+                  <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
+                  {result}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      <div class="prose prose-invert max-w-none prose-headings:font-display prose-headings:text-fg prose-p:text-muted prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-fg prose-li:text-muted prose-code:text-accent prose-code:before:content-none prose-code:after:content-none">
+        <slot />
+      </div>
+    </div>
+
+    <div class="mx-auto mt-24 max-w-content text-center">
+      <Button href="/case-studies" variant="secondary">Back to all case studies</Button>
+    </div>
+  </article>
+</PageLayout>

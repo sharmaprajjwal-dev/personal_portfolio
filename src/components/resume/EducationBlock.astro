@@ -1,0 +1,29 @@
+---
+const EDUCATION = [
+  {
+    degree: 'Master of Business Administration',
+    institution: 'Limkokwing University of Creative Technology / CG Institute of Management, Kathmandu, Nepal',
+    period: '2018–2022',
+    note: 'Foundation across strategy, finance, and operations.',
+  },
+  {
+    degree: 'Bachelor of Business Information Systems',
+    institution: 'Kathmandu University, Dhulikhel, Nepal',
+    period: '2014–2018',
+    note: 'Grounding in business systems and applied information technology.',
+  },
+];
+---
+
+<div class="space-y-6">
+  {EDUCATION.map((edu) => (
+    <div class="flex flex-col gap-1 border-l-2 border-accent/40 pl-6 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+      <div>
+        <p class="font-display text-lg text-fg">{edu.degree}</p>
+        <p class="text-sm text-muted">{edu.institution}</p>
+        <p class="mt-1 text-sm text-muted">{edu.note}</p>
+      </div>
+      <p class="font-mono text-xs text-muted shrink-0">{edu.period}</p>
+    </div>
+  ))}
+</div>

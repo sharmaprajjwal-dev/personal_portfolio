@@ -1,0 +1,35 @@
+---
+import Card from '../ui/Card.astro';
+import Badge from '../ui/Badge.astro';
+import Icon from '../ui/Icon.astro';
+import { formatDate, readingTime } from '../../lib/utils';
+import type { ArticleEntry } from '../../lib/collections';
+
+interface Props {
+  article: ArticleEntry;
+}
+
+const { article } = Astro.props;
+const { title, summary, category, publishDate } = article.data;
+const time = readingTime(article.body ?? '');
+---
+
+<Card href={`/research/${article.slug}`} class="group h-full flex flex-col justify-between">
+  <div>
+    <div class="flex items-center gap-3">
+      <Badge variant="accent">{category}</Badge>
+      <span class="font-mono text-xs text-muted">{time}</span>
+    </div>
+    <h3 class="mt-4 font-display text-xl text-fg group-hover:text-accent transition-colors">
+      {title}
+    </h3>
+    <p class="mt-2 text-sm text-muted">{summary}</p>
+  </div>
+
+  <div class="mt-6 flex items-center justify-between">
+    <time datetime={publishDate.toISOString()} class="font-mono text-xs text-muted">
+      {formatDate(publishDate)}
+    </time>
+    <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-accent transition-colors" />
+  </div>
+</Card>

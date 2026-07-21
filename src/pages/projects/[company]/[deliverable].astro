@@ -1,0 +1,32 @@
+---
+import { render, getCollection } from 'astro:content';
+import DeliverableLayout from '../../../layouts/DeliverableLayout.astro';
+import { getPublishedProjects } from '../../../lib/collections';
+
+export async function getStaticPaths() {
+  const [projects, deliverables] = await Promise.all([
+    getPublishedProjects(),
+    getCollection('deliverables', ({ data }) => !data.draft),
+  ]);
+
+  return deliverables
+    .map((deliverable) => {
+      const [companySlug, deliverableSlug] = deliverable.slug.split('/');
+      const project = projects.find((p) => p.slug === companySlug);
+      return project
+        ? {
+            params: { company: companySlug, deliverable: deliverableSlug },
+            props: { deliverable, project },
+          }
+        : null;
+    })
+    .filter((entry) => entry !== null);
+}
+
+const { deliverable, project } = Astro.props;
+const { Content } = await render(deliverable);
+---
+
+<DeliverableLayout deliverable={deliverable} project={project}>
+  <Content />
+</DeliverableLayout>

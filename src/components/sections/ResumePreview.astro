@@ -1,0 +1,44 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import Button from '../ui/Button.astro';
+import Reveal from '../ui/Reveal.astro';
+import Icon from '../ui/Icon.astro';
+import { getExperienceTimeline } from '../../lib/collections';
+import { formatMonthYear as fmt } from '../../lib/utils';
+
+const timeline = (await getExperienceTimeline()).slice(0, 3);
+---
+
+<section class="px-6 py-24 sm:py-32">
+  <div class="mx-auto max-w-content">
+    <div class="flex items-end justify-between gap-6">
+      <SectionHeading eyebrow="Career">Resume, at a glance</SectionHeading>
+      <Button href="/resume" variant="ghost" class="hidden sm:inline-flex shrink-0">
+        Open full resume
+      </Button>
+    </div>
+
+    <div class="mt-12 space-y-px overflow-hidden rounded-xl border border-white/10 bg-white/10">
+      {timeline.map((role, i) => (
+        <Reveal delay={i * 80} class="flex flex-col gap-1 bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex items-center gap-4">
+            <span class="h-2 w-2 shrink-0 rounded-full bg-accent"></span>
+            <div>
+              <p class="font-display text-fg">{role.data.role}</p>
+              <p class="text-sm text-muted">{role.data.company}</p>
+            </div>
+          </div>
+          <p class="font-mono text-xs text-muted pl-6 sm:pl-0">
+            {fmt(role.data.startDate)} — {role.data.endDate ? fmt(role.data.endDate) : 'Present'}
+          </p>
+        </Reveal>
+      ))}
+    </div>
+
+    <div class="mt-8 sm:hidden">
+      <Button href="/resume" variant="secondary">
+        Open full resume <Icon name="arrow-right" size={16} />
+      </Button>
+    </div>
+  </div>
+</section>

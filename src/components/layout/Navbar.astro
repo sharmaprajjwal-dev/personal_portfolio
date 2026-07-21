@@ -1,0 +1,82 @@
+---
+import { PRIMARY_NAV } from '../../data/nav';
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+---
+
+<header
+  id="site-header"
+  class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-bg/40 backdrop-blur-sm transition-[background-color,backdrop-filter,border-color] duration-300 ease-out-quart"
+  data-navbar
+>
+  <nav
+    aria-label="Primary"
+    class="mx-auto max-w-content flex items-center justify-between px-6 py-4"
+  >
+    <a
+      href="/"
+      class="font-display text-sm font-semibold tracking-tight text-fg hover:text-accent transition-colors duration-200"
+    >
+      Prajjwal Sharma
+    </a>
+
+    <ul class="hidden lg:flex items-center gap-8">
+      {PRIMARY_NAV.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'text-sm transition-colors duration-200',
+              isActive(item.href) ? 'text-fg' : 'text-muted hover:text-fg',
+            ]}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="hidden lg:block">
+      <a
+        href="/contact"
+        class="inline-flex items-center rounded-md border border-white/10 bg-surface px-4 py-2 text-sm text-fg hover:border-accent/50 hover:text-accent transition-colors duration-200"
+      >
+        Get in touch
+      </a>
+    </div>
+
+    <button
+      id="mobile-nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-md border border-white/10 text-fg"
+    >
+      <span class="sr-only">Toggle menu</span>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+    </button>
+  </nav>
+</header>
+
+<script>
+  // Glass-on-scroll: header starts with a subtle permanent glass base (set in markup)
+  // and deepens once you scroll, instead of jumping from fully transparent to solid.
+  const header = document.getElementById('site-header');
+  const onScroll = () => {
+    if (!header) return;
+    if (window.scrollY > 8) {
+      header.classList.add('bg-bg/80', 'backdrop-blur-md', 'border-white/10');
+      header.classList.remove('bg-bg/40', 'backdrop-blur-sm', 'border-white/5');
+    } else {
+      header.classList.add('bg-bg/40', 'backdrop-blur-sm', 'border-white/5');
+      header.classList.remove('bg-bg/80', 'backdrop-blur-md', 'border-white/10');
+    }
+  };
+  onScroll();
+  document.addEventListener('astro:page-load', onScroll);
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

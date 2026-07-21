@@ -1,0 +1,20 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import MobileNav from '../components/layout/MobileNav.astro';
+import Footer from '../components/layout/Footer.astro';
+import type { SEOInput } from '../lib/seo';
+
+interface Props extends SEOInput {}
+
+const props = Astro.props;
+---
+
+<BaseLayout {...props}>
+  <Navbar />
+  <MobileNav />
+  <main id="main-content" class="pt-24">
+    <slot />
+  </main>
+  <Footer />
+</BaseLayout>

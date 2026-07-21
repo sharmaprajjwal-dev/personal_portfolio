@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import PageLayout from './PageLayout.astro';
+import Reveal from '../components/ui/Reveal.astro';
+import Badge from '../components/ui/Badge.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import Divider from '../components/ui/Divider.astro';
+import { formatDate, readingTime } from '../lib/utils';
+import type { ArticleEntry } from '../lib/collections';
+
+interface Props {
+  article: ArticleEntry;
+}
+
+const { article } = Astro.props;
+const { title, summary, category, publishDate, coverImage } = article.data;
+const time = readingTime(article.body ?? '');
+---
+
+<PageLayout
+  title={title}
+  description={summary}
+  canonicalPath={`/research/${article.slug}`}
+  ogImage={coverImage?.src}
+  type="article"
+>
+  <article class="px-6 pt-8 pb-24">
+    <div class="mx-auto max-w-prose">
+      <Reveal>
+        <a
+          href="/research"
+          class="inline-flex items-center gap-2 text-sm text-muted transition-colors duration-200 hover:text-accent"
+        >
+          <Icon name="arrow-right" size={14} class="rotate-180" />
+          All research
+        </a>
+
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <Badge variant="accent">{category}</Badge>
+          <time datetime={publishDate.toISOString()} class="font-mono text-xs text-muted">
+            {formatDate(publishDate)}
+          </time>
+          <span class="font-mono text-xs text-muted">{time}</span>
+        </div>
+
+        <h1 class="mt-6 text-balance font-display text-3xl font-semibold text-fg sm:text-4xl">
+          {title}
+        </h1>
+        <p class="mt-6 text-lg text-muted">{summary}</p>
+      </Reveal>
+    </div>
+
+    {coverImage && (
+      <Reveal delay={100}>
+        <div class="mx-auto mt-16 max-w-content">
+          <div class="aspect-video overflow-hidden rounded-xl border border-white/10">
+            <Image
+              src={coverImage}
+              inferSize
+              alt={`${title} cover image`}
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </Reveal>
+    )}
+
+    <div class="mx-auto mt-16 max-w-prose">
+      <Divider />
+    </div>
+
+    <div class="mx-auto mt-16 max-w-prose prose prose-invert prose-headings:font-display prose-headings:text-fg prose-p:text-muted prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-fg prose-li:text-muted prose-code:text-accent prose-code:before:content-none prose-code:after:content-none">
+      <slot />
+    </div>
+
+    <div class="mx-auto mt-24 max-w-prose text-center">
+      <Button href="/research" variant="secondary">Back to all research</Button>
+    </div>
+  </article>
+</PageLayout>

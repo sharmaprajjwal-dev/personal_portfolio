@@ -1,0 +1,61 @@
+---
+import { PRIMARY_NAV } from '../../data/nav';
+---
+
+<div
+  id="mobile-nav"
+  class="fixed inset-0 z-40 hidden bg-bg/98 backdrop-blur-md lg:hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile navigation"
+>
+  <ul class="flex flex-col items-start gap-2 px-6 pt-28">
+    {PRIMARY_NAV.map((item) => (
+      <li class="w-full border-b border-white/5">
+        <a href={item.href} class="block py-4 font-display text-2xl text-fg hover:text-accent transition-colors">
+          {item.label}
+        </a>
+      </li>
+    ))}
+    <li class="pt-6 w-full">
+      <a
+        href="/contact"
+        class="inline-flex items-center rounded-md bg-accent text-accent-fg px-5 py-3 text-sm font-medium"
+      >
+        Get in touch
+      </a>
+    </li>
+  </ul>
+</div>
+
+<script>
+  function setup() {
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const panel = document.getElementById('mobile-nav');
+    if (!toggle || !panel) return;
+
+    const close = () => {
+      panel.classList.add('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('overflow-hidden');
+    };
+    const open = () => {
+      panel.classList.remove('hidden');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('overflow-hidden');
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      isOpen ? close() : open();
+    });
+
+    panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+  }
+
+  setup();
+  document.addEventListener('astro:page-load', setup);
+</script>

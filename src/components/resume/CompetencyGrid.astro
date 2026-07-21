@@ -1,0 +1,30 @@
+---
+const COMPETENCIES = [
+  'Digital Marketing & Paid Media (Google, Meta, TikTok)',
+  'SEO & Organic Growth Strategy',
+  'Marketing ROI & Cost-Efficiency Optimisation',
+  'Procurement & Supply Chain Operations',
+  'Vendor Sourcing & Negotiation (Pakistan, India, China)',
+  'Product Strategy & Roadmapping',
+  'AI-Assisted Content & Workflow Automation',
+  'Cross-Cultural Customer Service',
+  'Market Research & Data-Driven Decision-Making',
+  'Independent Client & Portfolio Management',
+  'Email & Lifecycle Marketing',
+  'Budget Management',
+  'Business Process Improvement',
+  'Value Chain / SWOT / PESTLE Analysis',
+  'Financial Risk Management',
+  'Inventory, Warehouse & Logistics Management',
+  'Cross-Functional Stakeholder Coordination',
+];
+---
+
+<ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+  {COMPETENCIES.map((item) => (
+    <li class="flex items-center gap-3 text-sm text-fg">
+      <span class="h-1 w-1 shrink-0 rounded-full bg-accent"></span>
+      {item}
+    </li>
+  ))}
+</ul>

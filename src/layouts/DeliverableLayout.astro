@@ -1,0 +1,66 @@
+---
+import PageLayout from './PageLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import Reveal from '../components/ui/Reveal.astro';
+import type { DeliverableEntry, ProjectEntry } from '../lib/collections';
+
+interface Props {
+  deliverable: DeliverableEntry;
+  project: ProjectEntry;
+}
+
+const { deliverable, project } = Astro.props;
+const { title, category, summary, stack, downloadUrl } = deliverable.data;
+const deliverableSlug = deliverable.slug.split('/').pop();
+---
+
+<PageLayout
+  title={`${title} — ${project.data.company}`}
+  description={summary}
+  canonicalPath={`/projects/${project.slug}/${deliverableSlug}`}
+  type="article"
+>
+  <article class="px-6 pt-8 pb-24">
+    <div class="mx-auto max-w-content">
+      <Reveal>
+        <a
+          href={`/projects/${project.slug}`}
+          class="inline-flex items-center gap-2 text-sm text-muted transition-colors duration-200 hover:text-accent"
+        >
+          <Icon name="arrow-right" size={14} class="rotate-180" />
+          {project.data.company}
+        </a>
+
+        <p class="mt-8 font-mono text-xs uppercase tracking-[0.2em] text-accent">{category}</p>
+        <h1 class="mt-4 max-w-3xl text-balance font-display text-4xl font-semibold text-fg sm:text-5xl">
+          {title}
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg text-muted">{summary}</p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          {downloadUrl && (
+            <Button href={downloadUrl} variant="secondary" download>
+              <Icon name="arrow-right" size={16} class="rotate-90" />
+              Download full report
+            </Button>
+          )}
+        </div>
+
+        {stack && stack.length > 0 && (
+          <p class="mt-8 font-mono text-sm text-muted">{stack.join(' · ')}</p>
+        )}
+      </Reveal>
+    </div>
+
+    <div class="prose prose-invert mx-auto mt-16 max-w-content max-w-none prose-headings:font-display prose-headings:text-fg prose-p:text-muted prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-fg prose-li:text-muted">
+      <slot />
+    </div>
+
+    <div class="mx-auto mt-24 max-w-content text-center">
+      <Button href={`/projects/${project.slug}`} variant="secondary">
+        Back to {project.data.company}
+      </Button>
+    </div>
+  </article>
+</PageLayout>

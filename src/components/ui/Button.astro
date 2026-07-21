@@ -1,0 +1,49 @@
+---
+import { cn } from '../../lib/utils';
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md';
+  class?: string;
+  type?: 'button' | 'submit';
+  target?: '_blank';
+  download?: boolean;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  class: className,
+  type = 'button',
+  target,
+  download,
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-md font-medium transition-all duration-200 ease-out-quart focus-visible:outline-none disabled:opacity-50 disabled:pointer-events-none';
+
+const variants = {
+  primary: 'bg-accent text-accent-fg hover:shadow-glow hover:-translate-y-px',
+  secondary: 'bg-surface border border-white/10 text-fg hover:border-accent/50 hover:text-accent',
+  ghost: 'text-muted hover:text-fg',
+};
+
+const sizes = {
+  sm: 'px-4 py-2 text-sm',
+  md: 'px-6 py-3 text-sm',
+};
+
+const classes = cn(base, variants[variant], sizes[size], className);
+---
+
+{href ? (
+  <a href={href} class={classes} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} download={download}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes}>
+    <slot />
+  </button>
+)}

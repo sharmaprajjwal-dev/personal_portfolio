@@ -1,0 +1,98 @@
+---
+// One of the 4 components allowed to carry client-side JS (see README / architecture doc).
+// Framework-free vanilla JS, same pattern as Reveal.astro / FilterTabs.astro.
+// Posts to a Formspree-style endpoint (see SITE.contactFormEndpoint) since GitHub Pages
+// can't run server code. Falls back to a direct-email message if the endpoint isn't
+// configured yet, or if the request fails.
+import Input from '../ui/Input.astro';
+import Textarea from '../ui/Textarea.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { SITE } from '../../data/site';
+---
+
+<form
+  data-contact-form
+  data-endpoint={SITE.contactFormEndpoint}
+  data-fallback-email={SITE.socials.email}
+  class="space-y-6"
+>
+  <Input label="Name" name="name" required placeholder="Your name" />
+  <Input label="Email" name="email" type="email" required placeholder="you@example.com" />
+  <Textarea label="Message" name="message" required placeholder="What are you looking to work on?" />
+
+  <!-- Honeypot spam trap (Formspree's documented pattern) — left empty by real visitors. -->
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+  <div class="flex flex-wrap items-center gap-4">
+    <Button type="submit" data-contact-submit>
+      Send message
+      <Icon name="arrow-right" size={16} />
+    </Button>
+    <p data-contact-status role="status" aria-live="polite" class="text-sm text-muted"></p>
+  </div>
+</form>
+
+<script>
+  function setupContactForm() {
+    document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+      if (form.dataset.bound === 'true') return;
+      form.dataset.bound = 'true';
+
+      const status = form.querySelector<HTMLElement>('[data-contact-status]');
+      const submitBtn = form.querySelector<HTMLButtonElement>('[data-contact-submit]');
+      const endpoint = form.dataset.endpoint;
+      const fallbackEmail = form.dataset.fallbackEmail;
+
+      const setStatus = (text: string) => {
+        if (status) status.textContent = text;
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (!endpoint || endpoint.includes('REPLACE-WITH')) {
+          setStatus(
+            fallbackEmail
+              ? `This form isn't connected yet — email me directly at ${fallbackEmail}.`
+              : "This form isn't connected yet.",
+          );
+          return;
+        }
+
+        if (submitBtn) submitBtn.disabled = true;
+        setStatus('Sending…');
+
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form),
+          });
+
+          if (response.ok) {
+            form.reset();
+            setStatus("Thanks — I'll get back to you soon.");
+          } else {
+            setStatus(
+              fallbackEmail
+                ? `Something went wrong — email me directly at ${fallbackEmail}.`
+                : 'Something went wrong. Please try again.',
+            );
+          }
+        } catch {
+          setStatus(
+            fallbackEmail
+              ? `Something went wrong — email me directly at ${fallbackEmail}.`
+              : 'Something went wrong. Please try again.',
+          );
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    });
+  }
+
+  setupContactForm();
+  document.addEventListener('astro:page-load', setupContactForm);
+</script>
