@@ -4,15 +4,16 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 
-const isGitHubPagesBuild = process.env.GITHUB_ACTIONS === 'true';
-
-// Update `site` to your final custom domain before the production build —
-// it feeds canonical URLs, the sitemap, and Open Graph tags site-wide.
+// Deployed as a GitHub Pages PROJECT site (repo: personal_portfolio).
+// site + base must match your actual GitHub Pages URL exactly, or every
+// internal link/asset will resolve to the wrong path.
+//
+// Once you buy prajjwalsharma.nz and point it at GitHub Pages (or move to
+// another host), change `site` to 'https://prajjwalsharma.nz' and DELETE
+// the `base` line entirely — a custom domain at the root doesn't need one.
 export default defineConfig({
-  site: 'https://prajjwalsharma.nz',
-  // The live GitHub Pages URL is a project site, so built assets must be
-  // prefixed with the repository name. Keep root paths for local/custom-domain use.
-  base: isGitHubPagesBuild ? '/personal_portfolio' : undefined,
+  site: 'https://sharmaprajjwal-dev.github.io',
+  base: '/personal_portfolio/',
   output: 'static',
   integrations: [
     tailwind({ applyBaseStyles: false }),
