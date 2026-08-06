@@ -7,7 +7,7 @@ tags: ["Google Ads", "Meta Ads", "Campaign Strategy", "Local Targeting", "Creati
 stack: ["Google Ads (Search + Performance Max Local)", "Meta Ads (Facebook & Instagram)", "GA4", "Audience & Keyword Research", "Retargeting Strategy"]
 location: "Auckland, Wellington & Hamilton, New Zealand"
 project_type: "paid-media-campaign-blueprint"
-client_type: "personal-project"
+client_type: "demonstration"
 confidentiality: "public"
 project_date: 2026-08-01
 featured: false
