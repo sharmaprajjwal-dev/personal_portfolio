@@ -120,13 +120,13 @@
   }
 
   .cs-accordion .cs-panel li {
-    @apply flex gap-3;
-  }
+  @apply relative pl-5;
+}
 
-  .cs-accordion .cs-panel li::before {
-    content: '';
-    @apply mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent;
-  }
+.cs-accordion .cs-panel li::before {
+  content: '';
+  @apply absolute left-0 top-2 h-1.5 w-1.5 rounded-full bg-accent;
+}
 
   .cs-accordion .cs-panel strong {
     @apply font-medium text-fg;
