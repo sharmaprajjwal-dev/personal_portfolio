@@ -12,7 +12,7 @@ confidentiality: "public"
 project_date: 2026-08-01
 featured: false
 order: 5
-draft: true
+draft: false
 ---
 
 <p class="text-sm italic text-muted/80 border-l-2 border-white/10 pl-4">
