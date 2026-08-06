@@ -8,7 +8,7 @@ approach: "Started with a 25-section, Deloitte-style executive diagnostic applyi
 tags: ["Business Strategy", "Digital Marketing", "Growth Strategy", "AI Readiness"]
 featured: true
 order: 1
-draft: true
+draft: false
 ---
 
 <p class="text-sm italic text-muted/80 border-l-2 border-white/10 pl-4">
