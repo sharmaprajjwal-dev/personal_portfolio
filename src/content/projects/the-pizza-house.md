@@ -9,7 +9,7 @@ tags:
   ["Business Strategy", "Digital Growth", "Local SEO", "Conversion Strategy"]
 featured: true
 order: 1
-draft: true
+draft: false
 ---
 
 <p class="text-sm italic text-muted/80 border-l-2 border-white/10 pl-4">
