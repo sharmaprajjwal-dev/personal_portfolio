@@ -8,7 +8,7 @@ approach: "Built a complete two-platform campaign blueprint anchored on a single
 tags: ["Paid Media Strategy", "Google Ads", "Meta Ads", "Campaign Planning", "Local Targeting"]
 featured: false
 order: 4
-draft: true
+draft: false
 ---
 
 <p class="text-sm italic text-muted/80 border-l-2 border-white/10 pl-4">
